@@ -1,5 +1,5 @@
 // Bump the version when you change any cached file.
-const CACHE = 'water-v1';
+const CACHE = 'water-v2';
 const FILES = [
   './',
   'index.html',
@@ -8,6 +8,10 @@ const FILES = [
   'manifest.json',
   'assets/glass.svg',
   'assets/glass-simple.svg',
+  'assets/site-icon.svg',
+  'assets/icon-192.png',
+  'assets/icon-512.png',
+  'assets/apple-touch-icon.png',
 ];
 
 self.addEventListener('install', (event) => {
