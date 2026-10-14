@@ -5,11 +5,16 @@ const INCREMENT_OZ = 8;  // oz added per button press
 const STORAGE_KEY = 'water-tracker';
 const WEEK_DAYS = 7;
 const GOAL_MSG_MS = 3000; // how long "Goal reached!" stays visible
+const RIPPLE_COUNT = 3;
+const RIPPLE_STAGGER_MS = 220;
+const GLASS_WAVE_DELAY_MS = 220; // wait for the ripples before the glasses wave
+const GLASS_WAVE_STAGGER_MS = 70;
 
 // ---------- Elements ----------
 const glassesEl = document.getElementById('glasses');
 const glassTpl = document.getElementById('glassTpl');
 const drinkBtn = document.getElementById('drinkBtn');
+const drinkWrap = document.getElementById('drinkWrap');
 const undoBtn = document.getElementById('undoBtn');
 const resetBtn = document.getElementById('resetBtn');
 const goalMsg = document.getElementById('goalMsg');
@@ -155,13 +160,36 @@ function showGoalMessage() {
   goalMsgTimer = setTimeout(() => goalMsg.classList.remove('is-visible'), GOAL_MSG_MS);
 }
 
+function celebrate() {
+  showGoalMessage();
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Ripple rings, inserted behind the button so it paints on top
+  for (let i = 0; i < RIPPLE_COUNT; i++) {
+    const ring = document.createElement('span');
+    ring.className = 'ripple';
+    ring.style.animationDelay = `${i * RIPPLE_STAGGER_MS}ms`;
+    ring.addEventListener('animationend', () => ring.remove());
+    drinkWrap.prepend(ring);
+  }
+
+  // Stadium wave across the glasses row
+  [...glassesEl.children].forEach((glass, i) => {
+    glass.classList.remove('is-wave');
+    glass.style.animationDelay = `${GLASS_WAVE_DELAY_MS + i * GLASS_WAVE_STAGGER_MS}ms`;
+    glass.addEventListener('animationend', () => glass.classList.remove('is-wave'), { once: true });
+    void glass.offsetWidth; // restart the animation if it's already running
+    glass.classList.add('is-wave');
+  });
+}
+
 // ---------- Events ----------
 
 drinkBtn.addEventListener('click', () => {
   const wasBelowGoal = total < TARGET_OZ;
   setTotal(total + INCREMENT_OZ, { pop: true });
   if (navigator.vibrate) navigator.vibrate(15);
-  if (wasBelowGoal && total >= TARGET_OZ) showGoalMessage();
+  if (wasBelowGoal && total >= TARGET_OZ) celebrate();
 });
 
 undoBtn.addEventListener('click', () => {

@@ -18,6 +18,9 @@
   --card-bg: rgba(11, 29, 51, 0.55);
   --card-border: rgba(255, 255, 255, 0.08);
 
+  /* Goal celebration */
+  --ripple: rgba(255, 255, 255, 0.8);
+
   /* Shadows */
   --shadow: rgba(0, 0, 0, 0.35);
   --text-shadow: rgba(0, 0, 0, 0.4);
@@ -137,7 +140,15 @@ body.is-goal {
 
 /* ---------- Drink button ---------- */
 
+.drink-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
 .drink {
+  position: relative; /* paint above the ripple rings */
+  z-index: 1;
   width: var(--button-size);
   height: var(--button-size);
   border-radius: 50%;
@@ -214,6 +225,7 @@ body.is-goal {
 /* ---------- This week ---------- */
 
 .week {
+  --day-width: 108px;
   position: relative;
   z-index: 1;
   padding: 8px 0 calc(env(safe-area-inset-bottom) + 40px);
@@ -231,13 +243,14 @@ body.is-goal {
 .week__row {
   list-style: none;
   margin: 0;
-  padding: 4px 16px 12px;
+  /* Half a screen minus half a card on each end, so the first and last
+     cards (today, and the oldest day) can sit dead center. */
+  padding: 4px calc(50% - var(--day-width) / 2) 12px;
   display: flex;
   flex-direction: row-reverse;
   gap: 12px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 16px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -247,8 +260,8 @@ body.is-goal {
 }
 
 .day {
-  flex: 0 0 108px;
-  scroll-snap-align: start;
+  flex: 0 0 var(--day-width);
+  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,6 +296,33 @@ body.is-goal {
 
 .day.is-today {
   border-color: var(--glass-full);
+}
+
+/* ---------- Goal celebration ---------- */
+
+/* Rings radiate out from behind the drink button */
+.ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid var(--ripple);
+  pointer-events: none;
+  animation: ripple 1.6s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+}
+
+@keyframes ripple {
+  from { transform: scale(1);   opacity: 0.9; }
+  to   { transform: scale(3.6); opacity: 0; border-width: 1px; }
+}
+
+/* Glasses bounce left to right like a stadium wave */
+.glass.is-wave {
+  animation: glass-wave 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes glass-wave {
+  0%, 100% { transform: translateY(0) scale(1); }
+  40%      { transform: translateY(-14px) scale(1.15); }
 }
 
 /* ---------- Background water ---------- */
@@ -349,4 +389,6 @@ body.is-goal {
 @media (prefers-reduced-motion: reduce) {
   .wave { animation: none; }
   .water__level { transition-duration: 0s; }
+  .ripple,
+  .glass.is-wave { animation: none; display: none; }
 }
