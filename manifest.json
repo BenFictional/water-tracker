@@ -1,0 +1,11 @@
+{
+  "name": "Water",
+  "short_name": "Water",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1d33",
+  "theme_color": "#0b1d33",
+  "icons": [
+    { "src": "assets/glass-simple.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

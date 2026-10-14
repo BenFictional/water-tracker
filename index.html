@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cut" />
+  <meta name="description" content="Track your daily water intake, offline." />
+  <meta name="theme-color" content="#0b1d33" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Water</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/glass-simple.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/glass-simple.svg" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <!-- Background water: rises with progress, waves drift horizontally -->
+  <div class="water" aria-hidden="true">
+    <div class="water__level" id="waterLevel">
+      <svg class="wave wave--back" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path d="M0 30 Q75 4 150 30 T300 30 T450 30 T600 30 T750 30 T900 30 T1050 30 T1200 30 V60 H0 Z" />
+      </svg>
+      <svg class="wave wave--front" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path d="M0 30 Q75 56 150 30 T300 30 T450 30 T600 30 T750 30 T900 30 T1050 30 T1200 30 V60 H0 Z" />
+      </svg>
+      <div class="water__body"></div>
+    </div>
+  </div>
+
+  <main class="app">
+    <header class="top">
+      <p class="streak" id="streak"></p>
+      <div class="glasses" id="glasses" role="img" aria-label="Glasses of water today"></div>
+    </header>
+
+    <section class="center">
+      <p class="toast" id="goalMsg" role="status" aria-live="polite"></p>
+      <button class="drink" id="drinkBtn" type="button" aria-label="Add a glass of water">
+        <svg class="drink__icon" viewBox="0 0 400 400" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M199.89 23.5117C161.303 23.5117 126.373 27.5027 101.627 33.7564C89.2673 36.8983 79.2893 40.4414 73.365 44.3294C67.4846 48.1914 67.7386 52.3867 73.365 55.5964C83.1073 61.1341 92.925 64.7214 101.792 66.1524C134.987 56.8724 156.955 52.5484 199.889 52.5484C247.039 52.5484 269.079 56.1617 298.015 66.1524C307.86 63.8946 318.251 60.6771 326.468 55.5964C332.806 51.6627 331.397 47.3827 326.468 44.3294C320.468 40.6054 310.584 36.8984 298.207 33.7564C273.453 27.5024 238.48 23.5117 199.89 23.5117Z" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M99.6633 109.33C132.393 115.623 170.17 118.685 199.89 118.774C238.207 118.774 271.397 114.831 300.193 109.33L291.278 168.957C264.593 173.583 234.331 176.778 199.891 176.778C176.584 176.778 155.358 175.231 135.705 172.845L155.589 341.708C147.331 339.605 139.593 336.317 132.926 331.97L108.58 168.956L99.6633 109.33ZM64.3867 70.37L105.03 341.927C105.03 347.317 110.216 353.704 125.844 361.625C141.488 369.54 166.147 376.113 199.987 376.278C233.76 376.087 258.387 369.54 273.987 361.625C289.613 353.709 294.823 345.078 294.823 341.927L335.45 70.37C327.392 74.094 317.446 77.2007 305.521 79.8673C278.072 85.9703 240.938 89.65 199.898 89.65C158.881 89.65 121.801 85.9703 94.3413 79.8673C82.3947 77.202 72.439 74.0953 64.3857 70.37H64.3867Z" />
+        </svg>
+      </button>
+      <p class="total" aria-live="polite">
+        <span id="totalOz">0</span> / <span id="targetOz">64</span> oz
+      </p>
+    </section>
+
+    <footer class="controls">
+      <button class="link-btn" id="undoBtn" type="button">Undo</button>
+      <button class="link-btn" id="resetBtn" type="button">Reset</button>
+    </footer>
+  </main>
+
+  <section class="week" aria-labelledby="weekTitle">
+    <h2 class="week__title" id="weekTitle">This week</h2>
+    <ol class="week__row" id="weekRow"></ol>
+  </section>
+
+  <!-- Glass icon used in the top row and the week view -->
+  <template id="glassTpl">
+    <svg class="glass" viewBox="0 0 400 400" aria-hidden="true">
+      <path d="M200 19.0776C276.148 19.0776 337.88 36.651 337.88 58.3286C337.88 59.9672 337.524 61.5816 336.839 63.1675C337.388 63.2401 337.784 63.7538 337.694 64.3169L289.89 361.351C289.834 361.702 289.587 362 289.255 362.127C219.41 389.042 179.997 385.267 110.164 362.112C109.809 361.994 109.542 361.687 109.483 361.318L62.3042 64.3149C62.2148 63.7519 62.6113 63.2393 63.1597 63.1675C62.4747 61.5817 62.1196 59.9671 62.1196 58.3286C62.1203 36.651 123.851 19.0777 200 19.0776Z" />
+    </svg>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
