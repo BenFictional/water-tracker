@@ -2,7 +2,7 @@
   /* Base */
   --bg: #0b1d33;
   --text: #e8f1fb;
-  --empty: #3a4a5e;
+  --empty: #31465e;
 
   /* Accent (filled glasses, drink button) */
   --blue: #2f8ff0;
@@ -11,7 +11,7 @@
   --glass-full: var(--blue);
 
   /* Background water */
-  --water-back: rgba(47, 143, 240, 0.35);
+  --water-back: hsla(210, 87%, 40%, 0.35);
   --water-front: #134a80;
 
   /* Week cards */
@@ -83,6 +83,7 @@ body.is-goal {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: -96px;
   gap: 20px;
 }
 
@@ -103,7 +104,7 @@ body.is-goal {
 }
 
 .streak {
-  margin: 0;
+  margin: 0 0 16px;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -111,13 +112,16 @@ body.is-goal {
 }
 
 .glasses {
-  display: flex;
-  justify-content: center;
-  gap: clamp(4px, 2vw, 12px);
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  place-items: center;
+  row-gap: 16px;
+  column-gap: 8px;
 }
 
 .glass {
-  width: clamp(24px, 9vw, 40px);
+  width: clamp(24px, 10vw, 48px);
   height: auto;
   fill: var(--empty);
   transition: fill 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -229,6 +233,7 @@ body.is-goal {
   margin: 0;
   padding: 4px 16px 12px;
   display: flex;
+  flex-direction: row-reverse;
   gap: 12px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;

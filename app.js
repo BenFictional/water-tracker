@@ -1,5 +1,5 @@
 // ---------- Config ----------
-const TARGET_OZ = 64;    // daily goal
+const TARGET_OZ = 96;    // daily goal
 const INCREMENT_OZ = 8;  // oz added per button press
 
 const STORAGE_KEY = 'water-tracker';
